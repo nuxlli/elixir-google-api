@@ -27,27 +27,27 @@ defmodule GoogleApi.CloudBuild.V1.Model.StorageSource do
   - object (String.t): Google Cloud Storage object containing the source.  This object must be a gzipped archive file (&#x60;.tar.gz&#x60;) containing source to build. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :bucket => any(),
-          :generation => any(),
-          :object => any()
+          bucket: any(),
+          generation: any(),
+          object: any()
         }
 
-  field(:bucket)
-  field(:generation)
-  field(:object)
+  defstruct [
+    :bucket,
+    :generation,
+    :object
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.StorageSource do
-  def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.StorageSource.decode(value, options)
+  def decode(value, _options) do
+    value
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.StorageSource do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

@@ -26,25 +26,25 @@ defmodule GoogleApi.CloudBuild.V1.Model.Volume do
   - path (String.t): Path at which to mount the volume.  Paths must be absolute and cannot conflict with other volume paths on the same build step or with certain reserved volume paths. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :name => any(),
-          :path => any()
+          name: any(),
+          path: any()
         }
 
-  field(:name)
-  field(:path)
+  defstruct [
+    :name,
+    :path
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.Volume do
-  def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.Volume.decode(value, options)
+  def decode(value, _options) do
+    value
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.Volume do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

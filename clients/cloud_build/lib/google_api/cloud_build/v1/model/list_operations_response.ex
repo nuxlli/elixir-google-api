@@ -26,25 +26,28 @@ defmodule GoogleApi.CloudBuild.V1.Model.ListOperationsResponse do
   - operations ([Operation]): A list of operations that matches the specified filter in the request. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :nextPageToken => any(),
-          :operations => list(GoogleApi.CloudBuild.V1.Model.Operation.t())
+          nextPageToken: any(),
+          operations: list(GoogleApi.CloudBuild.V1.Model.Operation.t())
         }
 
-  field(:nextPageToken)
-  field(:operations, as: GoogleApi.CloudBuild.V1.Model.Operation, type: :list)
+  defstruct [
+    :nextPageToken,
+    :operations
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.ListOperationsResponse do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.ListOperationsResponse.decode(value, options)
+    value
+    |> deserialize(:operations, :list, GoogleApi.CloudBuild.V1.Model.Operation, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.ListOperationsResponse do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

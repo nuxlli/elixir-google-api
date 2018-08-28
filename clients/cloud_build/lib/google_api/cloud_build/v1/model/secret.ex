@@ -26,25 +26,25 @@ defmodule GoogleApi.CloudBuild.V1.Model.Secret do
   - secretEnv (%{optional(String.t) &#x3D;&gt; binary()}): Map of environment variable name to its encrypted value.  Secret environment variables must be unique across all of a build&#39;s secrets, and must be used by at least one build step. Values can be at most 1 KB in size. There can be at most ten secret values across all of a build&#39;s secrets. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :kmsKeyName => any(),
-          :secretEnv => map()
+          kmsKeyName: any(),
+          secretEnv: any()
         }
 
-  field(:kmsKeyName)
-  field(:secretEnv, type: :map)
+  defstruct [
+    :kmsKeyName,
+    :secretEnv
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.Secret do
-  def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.Secret.decode(value, options)
+  def decode(value, _options) do
+    value
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.Secret do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

@@ -22,7 +22,7 @@ defmodule GoogleApi.CloudBuild.V1.Api.Operations do
   """
 
   alias GoogleApi.CloudBuild.V1.Connection
-  alias GoogleApi.Gax.{Request, Response}
+  import GoogleApi.CloudBuild.V1.RequestBuilder
 
   @doc """
   Starts asynchronous cancellation on a long-running operation.  The server makes a best effort to cancel the operation, but success is not guaranteed.  If the server doesn&#39;t support this method, it returns &#x60;google.rpc.Code.UNIMPLEMENTED&#x60;.  Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of 1, corresponding to &#x60;Code.CANCELLED&#x60;.
@@ -32,17 +32,17 @@ defmodule GoogleApi.CloudBuild.V1.Api.Operations do
   - connection (GoogleApi.CloudBuild.V1.Connection): Connection to server
   - operations_id (String.t): Part of &#x60;name&#x60;. The name of the operation resource to be cancelled.
   - opts (KeywordList): [optional] Optional parameters
+    - :$.xgafv (String.t): V1 error format.
+    - :oauth_token (String.t): OAuth 2.0 token for the current user.
+    - :callback (String.t): JSONP
+    - :alt (String.t): Data format for response.
     - :key (String.t): API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.
     - :access_token (String.t): OAuth access token.
     - :upload_protocol (String.t): Upload protocol for media (e.g. \&quot;raw\&quot;, \&quot;multipart\&quot;).
     - :prettyPrint (boolean()): Returns response with indentations and line breaks.
     - :quotaUser (String.t): Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters.
-    - :uploadType (String.t): Legacy upload protocol for media (e.g. \&quot;media\&quot;, \&quot;multipart\&quot;).
     - :fields (String.t): Selector specifying which fields to include in a partial response.
-    - :$.xgafv (String.t): V1 error format.
-    - :oauth_token (String.t): OAuth 2.0 token for the current user.
-    - :callback (String.t): JSONP
-    - :alt (String.t): Data format for response.
+    - :uploadType (String.t): Legacy upload protocol for media (e.g. \&quot;media\&quot;, \&quot;multipart\&quot;).
     - :body (CancelOperationRequest): 
 
   ## Returns
@@ -54,31 +54,29 @@ defmodule GoogleApi.CloudBuild.V1.Api.Operations do
           {:ok, GoogleApi.CloudBuild.V1.Model.Empty.t()} | {:error, Tesla.Env.t()}
   def cloudbuild_operations_cancel(connection, operations_id, opts \\ []) do
     optional_params = %{
+      :"$.xgafv" => :query,
+      :oauth_token => :query,
+      :callback => :query,
+      :alt => :query,
       :key => :query,
       :access_token => :query,
       :upload_protocol => :query,
       :prettyPrint => :query,
       :quotaUser => :query,
-      :uploadType => :query,
       :fields => :query,
-      :"$.xgafv" => :query,
-      :oauth_token => :query,
-      :callback => :query,
-      :alt => :query,
+      :uploadType => :query,
       :body => :body
     }
 
-    request =
-      Request.new()
-      |> Request.method(:post)
-      |> Request.url("/v1/operations/{operationsId}:cancel", %{
-        "operationsId" => URI.encode_www_form(operations_id)
-      })
-      |> Request.add_optional_params(optional_params, opts)
-
-    connection
-    |> Connection.execute(request)
-    |> Response.decode(struct: %GoogleApi.CloudBuild.V1.Model.Empty{})
+    %{}
+    |> method(:post)
+    |> url("/v1/operations/{operationsId}:cancel", %{
+      "operationsId" => URI.encode_www_form(operations_id)
+    })
+    |> add_optional_params(optional_params, opts)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> decode(%GoogleApi.CloudBuild.V1.Model.Empty{})
   end
 
   @doc """
@@ -89,17 +87,17 @@ defmodule GoogleApi.CloudBuild.V1.Api.Operations do
   - connection (GoogleApi.CloudBuild.V1.Connection): Connection to server
   - operations_id (String.t): Part of &#x60;name&#x60;. The name of the operation resource.
   - opts (KeywordList): [optional] Optional parameters
+    - :$.xgafv (String.t): V1 error format.
+    - :oauth_token (String.t): OAuth 2.0 token for the current user.
+    - :callback (String.t): JSONP
+    - :alt (String.t): Data format for response.
     - :key (String.t): API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.
     - :access_token (String.t): OAuth access token.
     - :upload_protocol (String.t): Upload protocol for media (e.g. \&quot;raw\&quot;, \&quot;multipart\&quot;).
     - :prettyPrint (boolean()): Returns response with indentations and line breaks.
     - :quotaUser (String.t): Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters.
-    - :uploadType (String.t): Legacy upload protocol for media (e.g. \&quot;media\&quot;, \&quot;multipart\&quot;).
     - :fields (String.t): Selector specifying which fields to include in a partial response.
-    - :$.xgafv (String.t): V1 error format.
-    - :oauth_token (String.t): OAuth 2.0 token for the current user.
-    - :callback (String.t): JSONP
-    - :alt (String.t): Data format for response.
+    - :uploadType (String.t): Legacy upload protocol for media (e.g. \&quot;media\&quot;, \&quot;multipart\&quot;).
 
   ## Returns
 
@@ -110,30 +108,28 @@ defmodule GoogleApi.CloudBuild.V1.Api.Operations do
           {:ok, GoogleApi.CloudBuild.V1.Model.Operation.t()} | {:error, Tesla.Env.t()}
   def cloudbuild_operations_get(connection, operations_id, opts \\ []) do
     optional_params = %{
+      :"$.xgafv" => :query,
+      :oauth_token => :query,
+      :callback => :query,
+      :alt => :query,
       :key => :query,
       :access_token => :query,
       :upload_protocol => :query,
       :prettyPrint => :query,
       :quotaUser => :query,
-      :uploadType => :query,
       :fields => :query,
-      :"$.xgafv" => :query,
-      :oauth_token => :query,
-      :callback => :query,
-      :alt => :query
+      :uploadType => :query
     }
 
-    request =
-      Request.new()
-      |> Request.method(:get)
-      |> Request.url("/v1/operations/{operationsId}", %{
-        "operationsId" => URI.encode_www_form(operations_id)
-      })
-      |> Request.add_optional_params(optional_params, opts)
-
-    connection
-    |> Connection.execute(request)
-    |> Response.decode(struct: %GoogleApi.CloudBuild.V1.Model.Operation{})
+    %{}
+    |> method(:get)
+    |> url("/v1/operations/{operationsId}", %{
+      "operationsId" => URI.encode_www_form(operations_id)
+    })
+    |> add_optional_params(optional_params, opts)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> decode(%GoogleApi.CloudBuild.V1.Model.Operation{})
   end
 
   @doc """
@@ -143,17 +139,17 @@ defmodule GoogleApi.CloudBuild.V1.Api.Operations do
 
   - connection (GoogleApi.CloudBuild.V1.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
+    - :$.xgafv (String.t): V1 error format.
+    - :oauth_token (String.t): OAuth 2.0 token for the current user.
+    - :callback (String.t): JSONP
+    - :alt (String.t): Data format for response.
     - :key (String.t): API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.
     - :access_token (String.t): OAuth access token.
     - :upload_protocol (String.t): Upload protocol for media (e.g. \&quot;raw\&quot;, \&quot;multipart\&quot;).
     - :prettyPrint (boolean()): Returns response with indentations and line breaks.
     - :quotaUser (String.t): Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters.
-    - :uploadType (String.t): Legacy upload protocol for media (e.g. \&quot;media\&quot;, \&quot;multipart\&quot;).
     - :fields (String.t): Selector specifying which fields to include in a partial response.
-    - :$.xgafv (String.t): V1 error format.
-    - :oauth_token (String.t): OAuth 2.0 token for the current user.
-    - :callback (String.t): JSONP
-    - :alt (String.t): Data format for response.
+    - :uploadType (String.t): Legacy upload protocol for media (e.g. \&quot;media\&quot;, \&quot;multipart\&quot;).
     - :filter (String.t): The standard list filter.
     - :pageToken (String.t): The standard list page token.
     - :pageSize (integer()): The standard list page size.
@@ -168,30 +164,28 @@ defmodule GoogleApi.CloudBuild.V1.Api.Operations do
           | {:error, Tesla.Env.t()}
   def cloudbuild_operations_list(connection, opts \\ []) do
     optional_params = %{
+      :"$.xgafv" => :query,
+      :oauth_token => :query,
+      :callback => :query,
+      :alt => :query,
       :key => :query,
       :access_token => :query,
       :upload_protocol => :query,
       :prettyPrint => :query,
       :quotaUser => :query,
-      :uploadType => :query,
       :fields => :query,
-      :"$.xgafv" => :query,
-      :oauth_token => :query,
-      :callback => :query,
-      :alt => :query,
+      :uploadType => :query,
       :filter => :query,
       :pageToken => :query,
       :pageSize => :query
     }
 
-    request =
-      Request.new()
-      |> Request.method(:get)
-      |> Request.url("/v1/operations")
-      |> Request.add_optional_params(optional_params, opts)
-
-    connection
-    |> Connection.execute(request)
-    |> Response.decode(struct: %GoogleApi.CloudBuild.V1.Model.ListOperationsResponse{})
+    %{}
+    |> method(:get)
+    |> url("/v1/operations")
+    |> add_optional_params(optional_params, opts)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> decode(%GoogleApi.CloudBuild.V1.Model.ListOperationsResponse{})
   end
 end

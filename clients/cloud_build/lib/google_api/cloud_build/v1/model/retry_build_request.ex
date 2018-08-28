@@ -24,19 +24,19 @@ defmodule GoogleApi.CloudBuild.V1.Model.RetryBuildRequest do
 
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{}
+
+  defstruct []
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.RetryBuildRequest do
-  def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.RetryBuildRequest.decode(value, options)
+  def decode(value, _options) do
+    value
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.RetryBuildRequest do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

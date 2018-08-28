@@ -26,25 +26,28 @@ defmodule GoogleApi.CloudBuild.V1.Model.Artifacts do
   - objects (ArtifactObjects): A list of objects to be uploaded to Cloud Storage upon successful completion of all build steps.  Files in the workspace matching specified paths globs will be uploaded to the specified Cloud Storage location using the builder service account&#39;s credentials.  The location and generation of the uploaded objects will be stored in the Build resource&#39;s results field.  If any objects fail to be pushed, the build is marked FAILURE. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :images => list(any()),
-          :objects => GoogleApi.CloudBuild.V1.Model.ArtifactObjects.t()
+          images: any(),
+          objects: GoogleApi.CloudBuild.V1.Model.ArtifactObjects.t()
         }
 
-  field(:images, type: :list)
-  field(:objects, as: GoogleApi.CloudBuild.V1.Model.ArtifactObjects)
+  defstruct [
+    :images,
+    :objects
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.Artifacts do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.Artifacts.decode(value, options)
+    value
+    |> deserialize(:objects, :struct, GoogleApi.CloudBuild.V1.Model.ArtifactObjects, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.Artifacts do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

@@ -26,25 +26,28 @@ defmodule GoogleApi.CloudBuild.V1.Model.ListBuildsResponse do
   - nextPageToken (String.t): Token to receive the next page of results. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :builds => list(GoogleApi.CloudBuild.V1.Model.Build.t()),
-          :nextPageToken => any()
+          builds: list(GoogleApi.CloudBuild.V1.Model.Build.t()),
+          nextPageToken: any()
         }
 
-  field(:builds, as: GoogleApi.CloudBuild.V1.Model.Build, type: :list)
-  field(:nextPageToken)
+  defstruct [
+    :builds,
+    :nextPageToken
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.ListBuildsResponse do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.ListBuildsResponse.decode(value, options)
+    value
+    |> deserialize(:builds, :list, GoogleApi.CloudBuild.V1.Model.Build, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.ListBuildsResponse do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

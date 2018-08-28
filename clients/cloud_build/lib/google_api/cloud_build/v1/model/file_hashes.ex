@@ -25,23 +25,26 @@ defmodule GoogleApi.CloudBuild.V1.Model.FileHashes do
   - fileHash ([Hash]): Collection of file hashes. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :fileHash => list(GoogleApi.CloudBuild.V1.Model.Hash.t())
+          fileHash: list(GoogleApi.CloudBuild.V1.Model.Hash.t())
         }
 
-  field(:fileHash, as: GoogleApi.CloudBuild.V1.Model.Hash, type: :list)
+  defstruct [
+    :fileHash
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.FileHashes do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.FileHashes.decode(value, options)
+    value
+    |> deserialize(:fileHash, :list, GoogleApi.CloudBuild.V1.Model.Hash, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.FileHashes do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

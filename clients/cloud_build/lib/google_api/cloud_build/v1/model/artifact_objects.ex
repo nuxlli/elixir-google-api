@@ -27,27 +27,30 @@ defmodule GoogleApi.CloudBuild.V1.Model.ArtifactObjects do
   - timing (TimeSpan): Output only. Stores timing information for pushing all artifact objects. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :paths => list(any()),
-          :location => any(),
-          :timing => GoogleApi.CloudBuild.V1.Model.TimeSpan.t()
+          paths: any(),
+          location: any(),
+          timing: GoogleApi.CloudBuild.V1.Model.TimeSpan.t()
         }
 
-  field(:paths, type: :list)
-  field(:location)
-  field(:timing, as: GoogleApi.CloudBuild.V1.Model.TimeSpan)
+  defstruct [
+    :paths,
+    :location,
+    :timing
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.ArtifactObjects do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.ArtifactObjects.decode(value, options)
+    value
+    |> deserialize(:timing, :struct, GoogleApi.CloudBuild.V1.Model.TimeSpan, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.ArtifactObjects do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

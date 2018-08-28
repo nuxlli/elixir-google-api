@@ -25,23 +25,26 @@ defmodule GoogleApi.CloudBuild.V1.Model.ListBuildTriggersResponse do
   - triggers ([BuildTrigger]): &#x60;BuildTriggers&#x60; for the project, sorted by &#x60;create_time&#x60; descending. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :triggers => list(GoogleApi.CloudBuild.V1.Model.BuildTrigger.t())
+          triggers: list(GoogleApi.CloudBuild.V1.Model.BuildTrigger.t())
         }
 
-  field(:triggers, as: GoogleApi.CloudBuild.V1.Model.BuildTrigger, type: :list)
+  defstruct [
+    :triggers
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.ListBuildTriggersResponse do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.ListBuildTriggersResponse.decode(value, options)
+    value
+    |> deserialize(:triggers, :list, GoogleApi.CloudBuild.V1.Model.BuildTrigger, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.ListBuildTriggersResponse do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

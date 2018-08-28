@@ -27,27 +27,30 @@ defmodule GoogleApi.CloudBuild.V1.Model.BuiltImage do
   - pushTiming (TimeSpan): Output only. Stores timing information for pushing the specified image. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :digest => any(),
-          :name => any(),
-          :pushTiming => GoogleApi.CloudBuild.V1.Model.TimeSpan.t()
+          digest: any(),
+          name: any(),
+          pushTiming: GoogleApi.CloudBuild.V1.Model.TimeSpan.t()
         }
 
-  field(:digest)
-  field(:name)
-  field(:pushTiming, as: GoogleApi.CloudBuild.V1.Model.TimeSpan)
+  defstruct [
+    :digest,
+    :name,
+    :pushTiming
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.BuiltImage do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.BuiltImage.decode(value, options)
+    value
+    |> deserialize(:pushTiming, :struct, GoogleApi.CloudBuild.V1.Model.TimeSpan, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.BuiltImage do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

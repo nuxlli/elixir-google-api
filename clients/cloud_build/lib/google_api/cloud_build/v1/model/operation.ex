@@ -29,31 +29,34 @@ defmodule GoogleApi.CloudBuild.V1.Model.Operation do
   - response (%{optional(String.t) &#x3D;&gt; String.t}): The normal response of the operation in case of success.  If the original method returns no data on success, such as &#x60;Delete&#x60;, the response is &#x60;google.protobuf.Empty&#x60;.  If the original method is standard &#x60;Get&#x60;/&#x60;Create&#x60;/&#x60;Update&#x60;, the response should be the resource.  For other methods, the response should have the type &#x60;XxxResponse&#x60;, where &#x60;Xxx&#x60; is the original method name.  For example, if the original method name is &#x60;TakeSnapshot()&#x60;, the inferred response type is &#x60;TakeSnapshotResponse&#x60;. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :done => any(),
-          :error => GoogleApi.CloudBuild.V1.Model.Status.t(),
-          :metadata => map(),
-          :name => any(),
-          :response => map()
+          done: any(),
+          error: GoogleApi.CloudBuild.V1.Model.Status.t(),
+          metadata: any(),
+          name: any(),
+          response: any()
         }
 
-  field(:done)
-  field(:error, as: GoogleApi.CloudBuild.V1.Model.Status)
-  field(:metadata, type: :map)
-  field(:name)
-  field(:response, type: :map)
+  defstruct [
+    :done,
+    :error,
+    :metadata,
+    :name,
+    :response
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.Operation do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.Operation.decode(value, options)
+    value
+    |> deserialize(:error, :struct, GoogleApi.CloudBuild.V1.Model.Status, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.Operation do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

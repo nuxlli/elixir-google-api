@@ -25,23 +25,26 @@ defmodule GoogleApi.CloudBuild.V1.Model.BuildOperationMetadata do
   - build (Build): The build that the operation is tracking. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :build => GoogleApi.CloudBuild.V1.Model.Build.t()
+          build: GoogleApi.CloudBuild.V1.Model.Build.t()
         }
 
-  field(:build, as: GoogleApi.CloudBuild.V1.Model.Build)
+  defstruct [
+    :build
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.BuildOperationMetadata do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.BuildOperationMetadata.decode(value, options)
+    value
+    |> deserialize(:build, :struct, GoogleApi.CloudBuild.V1.Model.Build, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.BuildOperationMetadata do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

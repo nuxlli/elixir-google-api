@@ -30,33 +30,33 @@ defmodule GoogleApi.CloudBuild.V1.Model.RepoSource do
   - tagName (String.t): Name of the tag to build. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :branchName => any(),
-          :commitSha => any(),
-          :dir => any(),
-          :projectId => any(),
-          :repoName => any(),
-          :tagName => any()
+          branchName: any(),
+          commitSha: any(),
+          dir: any(),
+          projectId: any(),
+          repoName: any(),
+          tagName: any()
         }
 
-  field(:branchName)
-  field(:commitSha)
-  field(:dir)
-  field(:projectId)
-  field(:repoName)
-  field(:tagName)
+  defstruct [
+    :branchName,
+    :commitSha,
+    :dir,
+    :projectId,
+    :repoName,
+    :tagName
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.RepoSource do
-  def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.RepoSource.decode(value, options)
+  def decode(value, _options) do
+    value
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.RepoSource do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

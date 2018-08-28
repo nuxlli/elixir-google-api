@@ -26,25 +26,29 @@ defmodule GoogleApi.CloudBuild.V1.Model.Source do
   - storageSource (StorageSource): If provided, get the source from this location in Google Cloud Storage. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :repoSource => GoogleApi.CloudBuild.V1.Model.RepoSource.t(),
-          :storageSource => GoogleApi.CloudBuild.V1.Model.StorageSource.t()
+          repoSource: GoogleApi.CloudBuild.V1.Model.RepoSource.t(),
+          storageSource: GoogleApi.CloudBuild.V1.Model.StorageSource.t()
         }
 
-  field(:repoSource, as: GoogleApi.CloudBuild.V1.Model.RepoSource)
-  field(:storageSource, as: GoogleApi.CloudBuild.V1.Model.StorageSource)
+  defstruct [
+    :repoSource,
+    :storageSource
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.Source do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.Source.decode(value, options)
+    value
+    |> deserialize(:repoSource, :struct, GoogleApi.CloudBuild.V1.Model.RepoSource, options)
+    |> deserialize(:storageSource, :struct, GoogleApi.CloudBuild.V1.Model.StorageSource, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.Source do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

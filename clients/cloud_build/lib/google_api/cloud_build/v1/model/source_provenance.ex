@@ -27,27 +27,42 @@ defmodule GoogleApi.CloudBuild.V1.Model.SourceProvenance do
   - resolvedStorageSource (StorageSource): A copy of the build&#39;s &#x60;source.storage_source&#x60;, if exists, with any generations resolved. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :fileHashes => map(),
-          :resolvedRepoSource => GoogleApi.CloudBuild.V1.Model.RepoSource.t(),
-          :resolvedStorageSource => GoogleApi.CloudBuild.V1.Model.StorageSource.t()
+          fileHashes: map(),
+          resolvedRepoSource: GoogleApi.CloudBuild.V1.Model.RepoSource.t(),
+          resolvedStorageSource: GoogleApi.CloudBuild.V1.Model.StorageSource.t()
         }
 
-  field(:fileHashes, as: GoogleApi.CloudBuild.V1.Model.FileHashes, type: :map)
-  field(:resolvedRepoSource, as: GoogleApi.CloudBuild.V1.Model.RepoSource)
-  field(:resolvedStorageSource, as: GoogleApi.CloudBuild.V1.Model.StorageSource)
+  defstruct [
+    :fileHashes,
+    :resolvedRepoSource,
+    :resolvedStorageSource
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.SourceProvenance do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.SourceProvenance.decode(value, options)
+    value
+    |> deserialize(:fileHashes, :map, GoogleApi.CloudBuild.V1.Model.FileHashes, options)
+    |> deserialize(
+      :resolvedRepoSource,
+      :struct,
+      GoogleApi.CloudBuild.V1.Model.RepoSource,
+      options
+    )
+    |> deserialize(
+      :resolvedStorageSource,
+      :struct,
+      GoogleApi.CloudBuild.V1.Model.StorageSource,
+      options
+    )
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.SourceProvenance do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

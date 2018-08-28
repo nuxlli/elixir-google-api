@@ -37,45 +37,49 @@ defmodule GoogleApi.CloudBuild.V1.Model.BuildStep do
   - waitFor ([String.t]): The ID(s) of the step(s) that this build step depends on. This build step will not start until all the build steps in &#x60;wait_for&#x60; have completed successfully. If &#x60;wait_for&#x60; is empty, this build step will start when all previous build steps in the &#x60;Build.Steps&#x60; list have completed successfully. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :args => list(any()),
-          :dir => any(),
-          :entrypoint => any(),
-          :env => list(any()),
-          :id => any(),
-          :name => any(),
-          :secretEnv => list(any()),
-          :status => any(),
-          :timeout => any(),
-          :timing => GoogleApi.CloudBuild.V1.Model.TimeSpan.t(),
-          :volumes => list(GoogleApi.CloudBuild.V1.Model.Volume.t()),
-          :waitFor => list(any())
+          args: any(),
+          dir: any(),
+          entrypoint: any(),
+          env: any(),
+          id: any(),
+          name: any(),
+          secretEnv: any(),
+          status: any(),
+          timeout: any(),
+          timing: GoogleApi.CloudBuild.V1.Model.TimeSpan.t(),
+          volumes: list(GoogleApi.CloudBuild.V1.Model.Volume.t()),
+          waitFor: any()
         }
 
-  field(:args, type: :list)
-  field(:dir)
-  field(:entrypoint)
-  field(:env, type: :list)
-  field(:id)
-  field(:name)
-  field(:secretEnv, type: :list)
-  field(:status)
-  field(:timeout)
-  field(:timing, as: GoogleApi.CloudBuild.V1.Model.TimeSpan)
-  field(:volumes, as: GoogleApi.CloudBuild.V1.Model.Volume, type: :list)
-  field(:waitFor, type: :list)
+  defstruct [
+    :args,
+    :dir,
+    :entrypoint,
+    :env,
+    :id,
+    :name,
+    :secretEnv,
+    :status,
+    :timeout,
+    :timing,
+    :volumes,
+    :waitFor
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.BuildStep do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.BuildStep.decode(value, options)
+    value
+    |> deserialize(:timing, :struct, GoogleApi.CloudBuild.V1.Model.TimeSpan, options)
+    |> deserialize(:volumes, :list, GoogleApi.CloudBuild.V1.Model.Volume, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.BuildStep do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

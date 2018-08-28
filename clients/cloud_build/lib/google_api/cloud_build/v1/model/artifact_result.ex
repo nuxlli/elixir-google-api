@@ -26,25 +26,28 @@ defmodule GoogleApi.CloudBuild.V1.Model.ArtifactResult do
   - location (String.t): The path of an artifact in a Google Cloud Storage bucket, with the generation number. For example, &#x60;gs://mybucket/path/to/output.jar#generation&#x60;. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :fileHash => list(GoogleApi.CloudBuild.V1.Model.FileHashes.t()),
-          :location => any()
+          fileHash: list(GoogleApi.CloudBuild.V1.Model.FileHashes.t()),
+          location: any()
         }
 
-  field(:fileHash, as: GoogleApi.CloudBuild.V1.Model.FileHashes, type: :list)
-  field(:location)
+  defstruct [
+    :fileHash,
+    :location
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.ArtifactResult do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.ArtifactResult.decode(value, options)
+    value
+    |> deserialize(:fileHash, :list, GoogleApi.CloudBuild.V1.Model.FileHashes, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.ArtifactResult do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

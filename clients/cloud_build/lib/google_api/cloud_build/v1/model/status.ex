@@ -27,27 +27,30 @@ defmodule GoogleApi.CloudBuild.V1.Model.Status do
   - message (String.t): A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :code => any(),
-          :details => list(GoogleApi.CloudBuild.V1.Model.Object.t()),
-          :message => any()
+          code: any(),
+          details: list(GoogleApi.CloudBuild.V1.Model.Object.t()),
+          message: any()
         }
 
-  field(:code)
-  field(:details, as: GoogleApi.CloudBuild.V1.Model.Object, type: :list)
-  field(:message)
+  defstruct [
+    :code,
+    :details,
+    :message
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.Status do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.Status.decode(value, options)
+    value
+    |> deserialize(:details, :list, GoogleApi.CloudBuild.V1.Model.Object, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.Status do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

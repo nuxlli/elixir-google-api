@@ -24,33 +24,39 @@ defmodule GoogleApi.CloudBuild.V1.Model.Results do
 
   - artifactManifest (String.t): Path to the artifact manifest. Only populated when artifacts are uploaded. Defaults to: `null`.
   - buildStepImages ([String.t]): List of build step digests, in the order corresponding to build step indices. Defaults to: `null`.
+  - buildStepOutputs ([binary()]): List of build step outputs, produced by builder images, in the order corresponding to build step indices.  [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders) can produce this output by writing to &#x60;$BUILDER_OUTPUT/output&#x60;. Only the first 4KB of data is stored. Defaults to: `null`.
   - images ([BuiltImage]): Container images that were built as a part of the build. Defaults to: `null`.
   - numArtifacts (String.t): Number of artifacts uploaded. Only populated when artifacts are uploaded. Defaults to: `null`.
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :artifactManifest => any(),
-          :buildStepImages => list(any()),
-          :images => list(GoogleApi.CloudBuild.V1.Model.BuiltImage.t()),
-          :numArtifacts => any()
+          artifactManifest: any(),
+          buildStepImages: any(),
+          buildStepOutputs: any(),
+          images: list(GoogleApi.CloudBuild.V1.Model.BuiltImage.t()),
+          numArtifacts: any()
         }
 
-  field(:artifactManifest)
-  field(:buildStepImages, type: :list)
-  field(:images, as: GoogleApi.CloudBuild.V1.Model.BuiltImage, type: :list)
-  field(:numArtifacts)
+  defstruct [
+    :artifactManifest,
+    :buildStepImages,
+    :buildStepOutputs,
+    :images,
+    :numArtifacts
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.Results do
+  import GoogleApi.CloudBuild.V1.Deserializer
+
   def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.Results.decode(value, options)
+    value
+    |> deserialize(:images, :list, GoogleApi.CloudBuild.V1.Model.BuiltImage, options)
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.Results do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end

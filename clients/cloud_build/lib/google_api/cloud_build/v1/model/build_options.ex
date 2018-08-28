@@ -35,33 +35,33 @@ defmodule GoogleApi.CloudBuild.V1.Model.BuildOptions do
     - Enum - one of [MUST_MATCH, ALLOW_LOOSE]
   """
 
-  use GoogleApi.Gax.ModelBase
-
   @type t :: %__MODULE__{
-          :diskSizeGb => any(),
-          :logStreamingOption => any(),
-          :machineType => any(),
-          :requestedVerifyOption => any(),
-          :sourceProvenanceHash => list(any()),
-          :substitutionOption => any()
+          diskSizeGb: any(),
+          logStreamingOption: any(),
+          machineType: any(),
+          requestedVerifyOption: any(),
+          sourceProvenanceHash: any(),
+          substitutionOption: any()
         }
 
-  field(:diskSizeGb)
-  field(:logStreamingOption)
-  field(:machineType)
-  field(:requestedVerifyOption)
-  field(:sourceProvenanceHash, type: :list)
-  field(:substitutionOption)
+  defstruct [
+    :diskSizeGb,
+    :logStreamingOption,
+    :machineType,
+    :requestedVerifyOption,
+    :sourceProvenanceHash,
+    :substitutionOption
+  ]
 end
 
 defimpl Poison.Decoder, for: GoogleApi.CloudBuild.V1.Model.BuildOptions do
-  def decode(value, options) do
-    GoogleApi.CloudBuild.V1.Model.BuildOptions.decode(value, options)
+  def decode(value, _options) do
+    value
   end
 end
 
 defimpl Poison.Encoder, for: GoogleApi.CloudBuild.V1.Model.BuildOptions do
   def encode(value, options) do
-    GoogleApi.Gax.ModelBase.encode(value, options)
+    GoogleApi.CloudBuild.V1.Deserializer.serialize_non_nil(value, options)
   end
 end
