@@ -132,22 +132,22 @@ defmodule {{moduleName}}.RequestBuilder do
   {:ok, struct} on success
   {:error, info} on failure
   """
-  @spec decode(Tesla.Env.t(), struct() | false | nil, keyword()) :: {:ok, struct()} | {:error, Tesla.Env.t}
-  def decode(env, struct \\ nil, opts \\ [])
+  @spec decode({:ok, Tesla.Env.t()} | {:error, Tesla.Env.t()}, struct() | false | nil, keyword()) :: {:ok, struct()} | {:error, Tesla.Env.t}
+  def decode(result, struct \\ nil, opts \\ [])
 
-  def decode(%Tesla.Env{status: status} = env, _struct, _opts) when status not in @successful_request_response do
+  def decode({:ok, %Tesla.Env{status: status} = env}, _struct, _opts) when status not in @successful_request_response do
     {:error, env}
   end
 
-  def decode(%Tesla.Env{} = env, false, _opts) do
+  def decode({:ok, %Tesla.Env{} = env}, false, _opts) do
     {:ok, env}
   end
 
-  def decode(%Tesla.Env{body: nil}, _struct, _opts) do
+  def decode({:ok, %Tesla.Env{body: nil}}, _struct, _opts) do
     {:ok, nil}
   end
 
-  def decode(%Tesla.Env{body: body}, struct, dataWrapped: true) do
+  def decode({:ok, %Tesla.Env{body: body}}, struct, dataWrapped: true) do
     Poison.decode(body, as: %{{moduleName}}.RequestBuilder.DataWrapper{}, struct: struct)
     |> case do
       {:ok, %{data: data}} -> {:ok, data}
@@ -155,8 +155,12 @@ defmodule {{moduleName}}.RequestBuilder do
     end
   end
 
-  def decode(%Tesla.Env{body: body}, struct, _opts) do
+  def decode({:ok, %Tesla.Env{body: body}}, struct, _opts) do
     Poison.decode(body, as: struct);
+  end
+
+  def decode(result, _struct, _opts) do
+    result
   end
 end
 
